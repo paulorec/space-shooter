@@ -7,7 +7,9 @@ public class GameController : MonoBehaviour {
 	public GameObject hazard;
 	public Vector3 spawnValues;
 
-	public int wavesInterval;
+	public int hazardsCount;
+	public int wavesWait;
+	public int spawnWait;
 
 	void Start() {
 				
@@ -16,16 +18,22 @@ public class GameController : MonoBehaviour {
 	}
 
 	IEnumerator SpawnWaves() {
-		
+
+
 		while(true) {
-			
-			Vector3 spawnPosition = new Vector3 (Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
 
-			Quaternion spawnRotation = Quaternion.identity;
+			for (int k = 0; k < hazardsCount; k++) {
 
-			Instantiate (hazard, spawnPosition, spawnRotation);
+				Vector3 spawnPosition = new Vector3 (Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
 
-			yield return new WaitForSeconds(wavesInterval);
+				Quaternion spawnRotation = Quaternion.identity;
+
+				Instantiate (hazard, spawnPosition, spawnRotation);
+
+				yield return new WaitForSeconds (spawnWait);
+			}
+
+			yield return new WaitForSeconds(wavesWait);
 		}
 		
 
