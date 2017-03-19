@@ -1,4 +1,4 @@
-# 🚀 Arcade Space Shooter Game!
+# 👽 Arcade Space Shooter Game!
 
 link: https://goo.gl/ZwHWLB
 
