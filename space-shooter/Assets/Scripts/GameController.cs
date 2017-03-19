@@ -13,13 +13,42 @@ public class GameController : MonoBehaviour {
 	public GUIText scoreText;
 	private int score;
 
+	public GUIText restartText;
+	public GUIText gameOverText;
+
+	private bool gameOver;
+	private bool restart;
+
 	void Start() {
 		score = 0;
+		gameOver = false;
+		restart = false;
+		restartText.text = "";
+		gameOverText.text = "";
+
 		updateScore ();
 
 		StartCoroutine ( SpawnWaves ());
 
 	}
+
+	void Update() {
+		
+		if (restart) {
+			
+			if (Input.GetKeyDown (KeyCode.R)) {
+				
+				Application.LoadLevel (Application.loadedLevel);
+			}
+		}
+	}
+	public void GameOver() {
+		score = 0;
+		gameOver = true;
+		gameOverText.text = "Game Over";
+
+	}
+
 
 	public void AddScore(int newScore) {
 		score += newScore;
@@ -32,7 +61,6 @@ public class GameController : MonoBehaviour {
 
 	IEnumerator SpawnWaves() {
 
-
 		while(true) {
 
 			for (int k = 0; k < hazardsCount; k++) {
@@ -44,9 +72,20 @@ public class GameController : MonoBehaviour {
 				Instantiate (hazard, spawnPosition, spawnRotation);
 
 				yield return new WaitForSeconds (spawnWait);
+
+				if (gameOver) {
+
+					restartText.text = "Press R for restart";
+
+					restart = true;
+
+					break;
+				}
 			}
 
 			yield return new WaitForSeconds(wavesWait);
+
+
 		}
 		
 
